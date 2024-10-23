@@ -1,0 +1,160 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/catalog.css' %}">
+
+</head>
+<body>
+<header class="header">
+    <div class="header__container">
+        <div class="header__logo">
+            <img src="{% if things.logo %}{{ things.logo.url }}{% endif %}" alt="caca-dog">
+            <div class="header__logo__text">
+                <p class="header__logo__title">{{ things.title_logo }}</p>
+                <p class="header__logo__subtitle">{{ things.subtitle_logo }}</p>
+            </div>
+
+        </div>
+        <nav class="header__nav">
+            <ul class="header__list">
+                <li class="header__item">
+                    <a href="{% url 'product:main' %}" class="header__link">
+                        Главная
+                    </a>
+                </li>
+                <li class="header__item">
+                    <a href="{% url 'product:service' %}" class="header__link">
+                        Услуги
+                    </a>
+                </li>
+
+                <li class="header__item">
+                            {% if admin.is_superuser and admin.is_authenticated %}
+                            <a href="{% url 'admin:index' %}" class="header__link">
+                                    Админ-панель
+                            </a>
+                            {% endif %}
+                </li>
+                <li class="header__item">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'users:profile' %}" class="header__link">
+                            Профиль
+                        </a>
+                    {% else %}
+                        <a href="{% url 'users:login' %}" class="header__link">
+                            Регистрация
+                        </a>
+                    {% endif %}
+
+
+                </li>
+            </ul>
+        </nav>
+        <div class="header__search">
+            <form action="" method="post">
+                {% csrf_token %}
+                <input class="header__search-input" type="text" placeholder='Введите в поиск' name="search">
+                <button type="submit" class="header__search-btn">Поиск</button>
+            </form>
+        </div>
+    </div>
+</header>
+<main class="main">
+    <div class="main__block-title">
+        <a href="{% url 'product:service' %}"><p class="main__block-title-title">
+            Наши услуги
+        </p></a>
+    </div>
+    <div class="main__block-catalog">
+        <div class="main__block-catalog-fillter">
+
+        </div>
+        <div class="main__block-catalog-body">
+            {% for el in model %}
+                <div class="main__block-cart">
+                    <img src="{% static 'assets/img/eyes.png' %}" alt="" class="main__block-cart-img">
+                    <h2>{{ el.name }}</h2>
+                    <p>{{ el.description }}</p>
+                    <button class="main__block-cart-btn open-popup">Записаться</button>
+
+                </div>
+            {% endfor %}
+            {#                <div class="main__block-cart">#}
+            {#                    <img src="./assets/img/eyes.png" alt="" class="main__block-cart-img">#}
+            {#                    <h2>Карточка 1</h2>#}
+            {#                    <button class="main__block-cart-btn">Записаться</button>#}
+            {#                    #}
+            {#                </div>#}
+            {#                <div class="main__block-cart">#}
+            {#                    <img src="./assets/img/eyes.png" alt="" class="main__block-cart-img">#}
+            {#                    <h2>Карточка 1</h2>#}
+            {#                    <button class="main__block-cart-btn">Записаться</button>#}
+            {#                    #}
+            {#                </div>#}
+            {#                <div class="main__block-cart">#}
+            {#                    <img src="./assets/img/eyes.png" alt="" class="main__block-cart-img">#}
+            {#                    <h2>Карточка 1</h2>#}
+            {#                    <button class="main__block-cart-btn">Записаться</button>#}
+            {#                    #}
+            {#                </div>#}
+        </div>
+    </div>
+</main>
+
+<div class="pop-up-bg">
+    <div class="pop-up">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="main-block">
+                <div class="main-block__block-close">
+                    <img src="{% static 'assets/img/cr.svg' %}" alt="крестик"
+                         class="main-block__block-close-img close-popup">
+                </div>
+                <div class="main-block__block-title">
+                    <p class="main-block__title">
+                        Запись на прием
+                    </p>
+                </div>
+                <div class="main-block__second-block">
+                    <div class="main-block__blocks">
+                        <input type="text" name="name" placeholder="Иванов" class="main-block__blocks-style">
+                        <input type="tel" name="phone" placeholder="+79999999999" class="main-block__blocks-style">
+                        <input type="text" name="pet_name" placeholder="Кузя" class="main-block__blocks-style">
+                    </div>
+                    <div class="main-block__blocks">
+                        <select id="servicess" name="service" class="main-block__blocks-style">
+                            {% for element in services %}
+                                <option type="text" value="{{ element.name }}">{{ element.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <select id="servics" name="time" class="main-block__blocks-style">
+                            {% for element in times %}
+                                <option type="text" value="{{ element.time }}">{{ element.time }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <input type="email" name="email" placeholder="email" class="main-block__blocks-style">
+                        <input type="date" name="date" id="date" placeholder="date" class="main-block__blocks-style">
+                    </div>
+                </div>
+                <div class="main-block__block-text">
+                    <input name="text" class="main-block__textarea">
+                </div>
+            </div>
+            <div class="main-block__block-btn">
+                <input type="submit" placeholder="Отправить" class="main-block__btn close-popup">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/calendar.js' %}"></script>
+
+</body>
+</html>

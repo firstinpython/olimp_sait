@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+    <header class ="header">
+        <div class="header__container">
+            <div class="header__logo">
+                <img src="{% if things.logo %}{{ things.logo.url }}{% endif %}" alt="caca-dog">
+                <div class="header__logo__text">
+                    <p class = "header__logo__title">{{ things.title_logo }}</p>
+                    <p class = "header__logo__subtitle">{{ things.subtitle_logo }}</p>
+                </div>
+            </div>
+            <div class="header__menu">
+                <nav class="header__nav">
+                    <ul class="header__list">
+                        <li class="header__item">
+                            <a href="{% url 'product:main' %}" class="header__link">
+                                Главная
+                            </a>
+                        </li>
+                        <li class="header__item">
+                            <a href="{% url 'product:service' %}" class="header__link">
+                                    Услуги
+                            </a>
+                        </li>
+                        <li class="header__item">
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'users:profile' %}" class="header__link">
+                                        Профиль
+                                </a>
+                            {% else %}
+                                <a href="{% url 'users:login' %}" class="header__link">
+                                        Регистрация
+                                </a>
+                            {% endif %}
+
+
+                        </li>
+                        <li class="header__item">
+                            {% if admin.is_superuser and admin.is_authenticated %}
+                            <a href="{% url 'admin:index' %}" class="header__link">
+                                    Админ-панель
+                            </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="header__logo__title">{{ things.city }}</div>
+        </div>
+        <div class="header__block">
+            <div class="header__block__text-block">
+                <div class="header__mini__block-text">
+                    <p class="header__block__title">
+                        Собакен
+                    </p>
+                    <p class="header__block__subtitle">
+                        Ветеринарная клиника
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <div class="main__services">
+            <div class="main__services__title-block">
+                <p class="main__services__title">
+                    Наши услуги
+                </p>
+            </div>
+            <div class="main__services__blocks">
+                {% if services %}
+                    {% for service in services %}
+                        <div class="main__services__block">
+                            <img src="{{ service.image.url }}" alt="" class="main__services__img">
+                            <p class="main__services__block-text">
+                                {{ service.name }}:
+                                {{ service.costs }} руб.
+                            </p>
+
+                            <button class="main__services__block-but open-popup">
+                                Записаться
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <a href = "{% url 'product:service' %}" class="main__services__input">Посмотреть полный каталог услуг</a>
+        </div>
+        <div class="main__reviews">
+            <div class="main__reviews__block-title">
+                <p class="main__reviews__title">
+                    Отзывы
+                </p>
+            </div>
+            <div class="main__reviews__blocks">
+                {% if review %}
+                    {% for el in review %}
+                    <div class="main__reviews__block">
+                        <p class="main__reviews__title">
+                            {{ el.username.last_name }} {{ el.username.first_name }}
+                        </p>
+                        <p class="main__reviews__text">
+                            {{ el.text }}
+                            
+                        </p>
+                        <div class="main__reviews__user-bottom">
+                            <p class="main__reviews__assessment">
+                                Оценка {{ el.score }}/5
+                            </p>
+                            <img src="{% if el.username.image %}{{ el.username.image.url }}{% else %}{% static 'assets/img/eyes.png' %}{% endif %}" alt="" class="main__reviews__img">
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+    </main>
+
+    <div class="pop-up-bg">
+    <div class="pop-up">
+        <form action="" method="post">
+        {% csrf_token %}
+            <div class="main-block">
+                <div class="main-block__block-close">
+                    <img src="{% static 'assets/img/cross.svg' %}" alt="" class="main-block__block-close-img close-popup">
+                </div>
+                <div class="main-block__block-title">
+                    <p class="main-block__title">
+                        Запись на прием
+                    </p>
+                </div>
+                <div class="main-block__second-block">
+                    <div class="main-block__blocks">
+                        <input type="text" name="name" placeholder="Иванов" class ="main-block__blocks-style">
+                        <input type="tel" name="phone" placeholder="+79999999999" class ="main-block__blocks-style">
+                        <input type="text" name="pet_name" placeholder="Кузя" class ="main-block__blocks-style">
+                    </div>
+                    <div class="main-block__blocks">
+                        <select id="servicess" name="service" class ="main-block__blocks-style">
+                        {% for element in services %}
+                            <option type = "text" value="{{ element.name }}"  >{{ element.name }}</option>
+                        {% endfor %}
+                        </select>
+                        <select id="servics" name="time" class ="main-block__blocks-style">
+                            {% for element in times %}
+                                <option type = "text" value="{{ element.time }}"  >{{ element.time }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <input type="email" name="email" placeholder="email" class ="main-block__blocks-style">
+                        <input type="date" name="date" id="date" placeholder="date" class ="main-block__blocks-style">
+                    </div>
+                </div>
+                <div class="main-block__block-text">
+                    <input name = "text" class="main-block__textarea"> 
+                </div>
+            </div>
+            <div class="main-block__block-btn">
+            <input type="submit" placeholder="Отправить" class="main-block__btn close-popup">
+            </div>
+        </form> 
+        </div>   
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/calendar.js' %}"></script>
+</body>
+</html>

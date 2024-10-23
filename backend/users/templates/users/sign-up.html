@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/sign-up.css' %}">
+    <title>Registration</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__container">
+        <div class="header__logo">
+            <img src="{% if things.logo %}{{ things.logo.url }}{% endif %}" alt="caca-dog">
+            <div class="header__logo__text">
+                <p class="header__logo__title">{{ things.title_logo }}</p>
+                <p class="header__logo__subtitle">{{ things.subtitle_logo }}</p>
+            </div>
+
+        </div>
+        <div class="header__menu">
+            <nav class="header__nav">
+                <ul class="header__list">
+                    <li class="header__item">
+                        <a href="{% url 'product:main' %}" class="header__link">
+                            Главная
+                        </a>
+                    </li>
+                    <li class="header__item">
+                        <a href="{% url 'product:service' %}" class="header__link">
+                            Услуги
+                        </a>
+                    </li>
+                    <li class="header__item">
+                        <a href="{% url 'users:profile' %}" class="header__link">
+                            Профиль
+                        </a>
+                    </li>
+                    <li class="header__item">
+                        {% if admin.is_superuser and admin.is_authenticated %}
+                            <a href="{% url 'admin:index' %}" class="header__link">
+                                Админ-панель
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="header__logo__title">{{ things.city }}</div>
+    </div>
+</header>
+<main class="main">
+    <div class="main__block">
+        <div class="main__miniblock-form">
+            <p class="main__block-title">
+                Вход
+            </p>
+            <form action="" method="post" class="main__block-form">
+                {% csrf_token %}
+                {#                    <input type="text" class="main__block-input" placeholder="Username">#}
+                {#                    <input type="password" class="main__block-input" placeholder="пароль">#}
+                {{ form.username }}
+                {{ form.password }}
+                <button type="submit" class="main__block-cart-btn">Вход</button>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,274 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+</head>
+<body>
+<header class="header">
+    <div class="header__container">
+        <div class="header__logo">
+            <img src="{% if things.logo %}{{ things.logo.url }}{% endif %}" alt="caca-dog">
+            <div class="header__logo__text">
+                <p class="header__logo__title">{{ things.title_logo }}</p>
+                <p class="header__logo__subtitle">{{ things.subtitle_logo }}</p>
+            </div>
+        </div>
+        <div class="header__menu">
+            <nav class="header__nav">
+                <ul class="header__list">
+                    <li class="header__item">
+                        <a href="{% url 'product:main' %}" class="header__link">
+                            Главная
+                        </a>
+                    </li>
+                    <li class="header__item">
+                        <a href="{% url 'product:service' %}" class="header__link">
+                            Услуги
+                        </a>
+                    </li>
+                    <li class="header__item">
+                        {% if admin.is_superuser and admin.is_authenticated %}
+                            <a href="{% url 'admin:index' %}" class="header__link">
+                                Админ-панель
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="header__item">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'users:profile' %}" class="header__link">
+                                Профиль
+                            </a>
+                        {% else %}
+                            <a href="{% url 'users:auth' %}" class="header__link">
+                                Вход
+                            </a>
+                        {% endif %}
+
+
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div></div>
+    </div>
+
+</header>
+<main class="main">
+    <div class="main__container">
+        <div class="main__block-applications">
+            <div class="main__block-btns">
+                <div class="main__block-buttons">
+                    <p class="main__block-title">
+                        Заявки
+                    </p>
+                    <div class="main__block-applications-btn">
+                        <p class="main__block-text open-popup">
+                            текущие
+                        </p>
+                        <p class="main__block-text">
+                            |
+                        </p>
+                        <p class="main__block-text open-popup2">
+                            прошлые
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="main__block-profile-img">
+                <img src="
+                        {% if user.image %}{{ user.image.url }}{% else %}{% static 'assets/img/eyes.png' %}{% endif %}"
+                     alt="" class="main__block-img">
+            </div>
+        </div>
+        <div class="main__block-forms">
+            <form action="" method="post" class="main__block-formblock">
+                {% csrf_token %}
+                <div class="main__block-fblock">
+                    <label for="username" class="main__block-label">Логин</label>
+                    <input type="text" id="username" class="main__block-input" value="{{ user.username }}">
+                </div>
+                <div class="main__block-fblock">
+                    <label for="firstname" class="main__block-label">Имя</label>
+                    <input type="text" name="first_name" id="firstname" class="main__block-input"
+                           value="{{ user.first_name }}">
+                </div>
+                <div class="main__block-fblock">
+                    <label for="lastname" class="main__block-label">Фамилия</label>
+                    <input type="text" name="last_name" id="lastname" class="main__block-input"
+                           value="{{ user.last_name }}">
+                </div>
+                <div class="main__block-fblock">
+                    <label for="email" class="main__block-label">Почта</label>
+                    <input type="email" name="email" id="email" class="main__block-input" value="{{ user.email }}">
+                </div>
+                <div class="main__block-fblock">
+                    <label for="phone" class="main__block-label">Телефон</label>
+                    <input type="tel" id="phone" class="main__block-input">
+                </div>
+                <button type="submit" class="main__block-formbtn">Сохранить</button>
+            </form>
+        </div>
+    </div>
+</main>
+<div class="pop-up-bg">
+    <div class="pop-up">
+        <div class="main-block">
+            <div class="main-block__block-title">
+                <p class="main-block__title">
+                    Открытые записи на прием
+                </p>
+            </div>
+            <div class="main-block__second-block">
+                <div class="main-block__blocks">
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-blockbtn">
+                            <button class="main-block__blocks-btn">Отзыв</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-block__blocks">
+
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Текст</p>
+                            <p class="main-block__blocks-info-text">wefrwefrgergdfbg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-block__blocks">
+
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Текст</p>
+                            <p class="main-block__blocks-info-text">wefrwefrgergdfbg</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <p class="main-block__block-exit close-popup">Выход</p>
+        </div>
+    </div>
+</div>
+<div class="pop-up-bg2">
+    <div class="pop-up">
+        <div class="main-block">
+            <div class="main-block__block-title">
+                <p class="main-block__title">
+                    Прошлые записи на прием
+                </p>
+            </div>
+            <div class="main-block__second-block">
+                <div class="main-block__blocks">
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Текст</p>
+                            <p class="main-block__blocks-info-text">wefrwefrgergdfbg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-block__blocks">
+
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Текст</p>
+                            <p class="main-block__blocks-info-text">wefrwefrgergdfbg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-block__blocks">
+
+                    <div class="main-block__blocks-info">
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Имя</p>
+                            <p class="main-block__blocks-info-text">ddaesfv</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Питомец</p>
+                            <p class="main-block__blocks-info-text">Барсик</p>
+                        </div>
+                        <div class="main-block__blocks-info-cart">
+                            <p class="main-block__blocks-info-title">Услуга</p>
+                            <p class="main-block__blocks-info-text">Слух</p>
+                        </div>
+                        <div class="main-block__blocks-blockbtn">
+                            <button class="main-block__blocks-btn">Отзыв</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="main-block__block-exit close-popup2">Выход</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/js/second.js' %}"></script>
+</body>
+</html>

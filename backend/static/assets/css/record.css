@@ -1,0 +1,28 @@
+.main-block {
+  display: flex;
+  flex-direction: column;
+}
+.main-block__second-block {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.main-block__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.main-block__blocks-style {
+  width: 350px;
+  height: 60px;
+  background-color: #CAF0F8;
+  border-radius: 10px;
+  font-size: 20px;
+}
+.main-block__textarea {
+  width: 710px;
+  height: 120px;
+  background-color: #CAF0F8;
+  border-radius: 10px;
+  margin-top: 10px;
+}

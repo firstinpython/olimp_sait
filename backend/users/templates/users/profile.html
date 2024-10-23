@@ -79,9 +79,7 @@
                 </div>
             </div>
             <div class="main__block-profile-img">
-                <img src="
-                        {% if user.image %}{{ user.image.url }}{% else %}{% static 'assets/img/eyes.png' %}{% endif %}"
-                     alt="" class="main__block-img">
+                <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'assets/img/eyes.png' %}{% endif %}"alt="" class="main__block-img">
             </div>
         </div>
         <div class="main__block-forms">
